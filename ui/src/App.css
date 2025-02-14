@@ -40,3 +40,117 @@
 ul.movies-list {
   list-style: none;
 }
+
+.movie-card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 20px 0;
+  max-width: 400px;
+}
+
+.movie-card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 20px 0;
+  max-width: 450px;
+}
+
+/* Tytuł filmu */
+.movie-title {
+  font-size: 22px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Rok filmu */
+.movie-year {
+  font-size: 18px;
+  color: #777;
+}
+
+/* Reżyser */
+.movie-director {
+  font-size: 18px;
+  color: #555;
+}
+
+/* Opis filmu */
+.movie-description {
+  font-size: 16px;
+  color: #666;
+}
+
+/* Sekcja aktorów */
+.actors-section {
+  margin-top: 10px;
+}
+
+/* Lista aktorów */
+.actors-list {
+  list-style: none;
+  padding: 0;
+}
+
+/* Pojedynczy aktor */
+.actor-item {
+  background: #f4f4f4;
+  padding: 5px;
+  border-radius: 5px;
+  margin: 5px 0;
+  display: inline-block;
+}
+
+/* Przycisk dodawania aktora */
+.add-actor-section {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.add-actor-button {
+  background-color: green;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Przycisk usuwania */
+.delete-button {
+  background-color: red;
+  color: white;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+.movies-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.movies-table th, .movies-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+.movies-table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+.movies-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.movies-table tr:hover {
+  background-color: #f1f1f1;
+}

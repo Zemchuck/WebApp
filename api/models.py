@@ -11,7 +11,7 @@ class Actor(BaseModel):
     surname = CharField()
 
 class Movie(BaseModel):
-    id= None
+    id= AutoField()
     title = CharField()
     director = CharField()
     year = IntegerField()

@@ -7,20 +7,10 @@ import MoviesList from "./MoviesList";
 function App() {
     const [movies, setMovies] = useState([]);
     const [addingMovie, setAddingMovie] = useState(false);
-// Add movie function
-    async function handleAddMovie(movie) {
-        const response = await fetch('/movies', {
-            method: 'POST',
-            body: JSON.stringify(movie),
-            headers: {
-                'Content-Type': 'application/json'}
-            });
-        if (response.ok) {
-            const movieFromServer = await response.json();
-            setMovies([...movies, movieFromServer]);
-            setAddingMovie(false);
-        }
-    }
+    const [actors, setActors] = useState([]);
+    const [addingActors, setAddingActors] = useState(false);
+
+
 //Show movies function
     useEffect (() => {
         async function fetchMovies() {
@@ -33,6 +23,20 @@ function App() {
         fetchMovies();
     }, 
     []);
+// Add movie function
+async function handleAddMovie(movie) {
+    const response = await fetch('/movies', {
+        method: 'POST',
+        body: JSON.stringify(movie),
+        headers: {
+            'Content-Type': 'application/json'}
+        });
+    if (response.ok) {
+        const movieFromServer = await response.json();
+        setMovies([...movies, movieFromServer]);
+        setAddingMovie(false);
+    }
+}
 // Delete movie function
     async function handleDeleteMovie(movie){
         const response = await fetch(`/movies/${movie.id}`, {
@@ -42,9 +46,19 @@ function App() {
             const nextMovies = movies.filter(m => m !== movie);
             setMovies(nextMovies);
         }
-    
-
     }
+
+//Show actors function
+    useEffect(() => {
+        async function fetchActors() {
+            const response = await fetch('/actors/');
+            if (response.ok) {
+                const actors = await response.json();
+                setActors(actors); 
+            }
+        }
+        fetchActors();
+    }, []);
 
     return (
         <div className="container">
@@ -52,6 +66,7 @@ function App() {
             {movies.length === 0
                 ? <p>No movies yet. Maybe add something?</p>
                 : <MoviesList movies={movies}
+                                actors={actors}
                               onDeleteMovie={handleDeleteMovie}
                 />}
 

@@ -3,13 +3,13 @@ from typing import List
 from fastapi import FastAPI, HTTPException
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
+from database import db
 
 import schemas
 import models
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="../ui/build/static", check_dir=False), name="static")
-
 
 @app.get("/")
 def serve_react_app():
@@ -22,10 +22,21 @@ def get_movies():
 
 
 @app.post("/movies", response_model=schemas.Movie)
-def add_movie(movie: schemas.MovieBase):
-    movie = models.Movie.create(**movie.dict())
-    return movie
-
+# def add_movie(movie: schemas.Movie):
+#     movie = models.Movie.create(**movie.dict())
+#     return movie
+def add_movie(movie: schemas.MovieCreate):
+    db_movie = models.Movie.create(
+        title=movie.title,
+        year=movie.year,
+        director=movie.director,
+        description=movie.description
+    )
+    for actor_id in movie.actors:
+        db_actor = models.Actor.get_or_none(models.Actor.id == actor_id)
+        if db_actor:
+            db_movie.actors.add(db_actor)
+    return db_movie
 
 @app.get("/movies/{movie_id}", response_model=schemas.Movie)
 def get_movie(movie_id: int):
@@ -36,7 +47,7 @@ def get_movie(movie_id: int):
 
 
 @app.delete("/movies/{movie_id}", response_model=schemas.Movie)
-def get_movie(movie_id: int):
+def delete_movie(movie_id: int):
     db_movie = models.Movie.filter(models.Movie.id == movie_id).first()
     if db_movie is None:
         raise HTTPException(status_code=404, detail="Movie not found")
@@ -45,8 +56,8 @@ def get_movie(movie_id: int):
 
 @app.get("/actors/", response_model=List[schemas.Actor])
 def get_actors():
-    db_actors = models.Actor.select()
-    if db_actors is None:
+    db_actors = list(models.Actor.select())
+    if not db_actors:
         raise HTTPException(status_code=404, detail="Actors not found")
     return db_actors
 
@@ -71,7 +82,7 @@ def delete_actor(actor_id: int):
     return db_actor
 
 @app.post("/movies/{movie_id}/actor", response_model=schemas.Movie)
-def add_actor_to_movie(movie_id: int,actor_id: int):
+def add_actor_to_movie(movie_id: int, actor_id: int):
 
     db_movie = models.Movie.filter(models.Movie.id == movie_id).first()
     if db_movie is None:
